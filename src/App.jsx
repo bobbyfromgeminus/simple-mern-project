@@ -58,7 +58,7 @@ function App() {
 
   const handleUserEditor = (user) => {
     setSelectedUser(user._id);
-    setComponent(<UserEditor selectedUser={user} />);
+    setComponent(<UserEditor selectedUser={user} updateUser={updateUser}/>);
   }
 
   const handleUserCreator = () => {
@@ -70,10 +70,25 @@ function App() {
 
   const createNewUser = async (user) => {
     try {
-      const createdUser = await fetchData('POST', '', user);
+      const createdUser = await fetchData('POST', ``, user);
       setFetchCounter(fetchCounter + 1);
       setSelectedUser(createdUser._id);
       setComponent(<UserInfo selectedUser={createdUser} />);
+    } catch (error) {
+      console.error('Hiba történt:', error);
+    }
+  }
+
+  const updateUser = async (user) => {
+    const userMod = {
+      name: user.name,
+      email: user.email
+    }
+    try {
+      const updatedUser = await fetchData('PATCH', `/${user._id}`, userMod);
+      setFetchCounter(fetchCounter + 1);
+      setSelectedUser(updatedUser._id);
+      setComponent(<UserInfo selectedUser={updatedUser} />);
     } catch (error) {
       console.error('Hiba történt:', error);
     }
@@ -94,7 +109,9 @@ function App() {
 
   return (
     <div id="layout-grid">
-      <header>Logo</header>
+      <header>
+          <i className="fas fa-users"></i> USER Editor
+      </header>
       <aside>
         <UserTable  users={users} 
                     handleUserInfo={handleUserInfo} 

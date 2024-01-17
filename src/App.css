@@ -45,7 +45,16 @@ header {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
+  font-size: .8rem;
+  letter-spacing: .1rem;
+  font-weight: 500;
+  color: var(--green-light)
+}
+
+header i {
+  font-size: 1.25rem;
+  margin-right: 1rem;
 }
 
 aside {
